@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: erigon
+spec:
+  restartPolicy: Always
+  hostNetwork: true
+
+  containers:
+  - name: erigon-container
+    image: avi17/ecommerce-backend:v18
+    # command: ["erigon"]
+    # args: ["--downloader.verify","--datadir=/erigon/","--private.api.addr=localhost:9090","--chain","mainnet","--healthcheck","--http=false","--http.addr='0.0.0.0'","--http.vhosts='*'","--http.api=eth,erigon,web3,net,debug,trace,txpool","--ws","--ws.compression"]
+    volumeMounts:
+       - mountPath: /erigon/
+         name: openebs-zfspv
+    tty: true
+    ports:
+    - name: peers
+      protocol: TCP
+      containerPort: 30303
+      # targetPort: 30303
+
+    - name: snapsync
+      protocol: TCP
+      containerPort: 42069
+      # targetPort: 42069
+
+    - name: peers-udp
+      protocol: UDP
+      containerPort: 30303
+
+    - name: snapsync-udp
+      protocol: UDP
+      containerPort: 42069
+
+  volumes:
+  - name: openebs-zfspv
+    persistentVolumeClaim:
+      claimName: csi-zfspv

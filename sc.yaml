@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: openebs-zfspv
+parameters:
+  poolname: "tank"
+provisioner: zfs.csi.openebs.io
+volumeBindingMode: Immediate

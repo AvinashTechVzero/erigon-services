@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: udp-service-1
+ # namespace: ingress-nginx
+data:
+  42069: "default/erigon:42069"
